@@ -1,0 +1,2 @@
+include ':app'
+rootProject.name='IntentCameraandGallery29072019'
