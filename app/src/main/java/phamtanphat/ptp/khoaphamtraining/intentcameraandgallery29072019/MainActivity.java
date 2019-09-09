@@ -9,6 +9,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -55,7 +56,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == Request_Code_Camera && resultCode == RESULT_OK && data!= null){
-
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            img.setImageBitmap(bitmap);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
