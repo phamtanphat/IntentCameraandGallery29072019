@@ -13,8 +13,8 @@ public class Mainmodel extends ViewModel implements LifecycleObserver {
     }
 
     MutableLiveData<Bitmap> mimgHinh = new MutableLiveData<>();
-
-
-
+    public void setImageBitmap(Bitmap imageBitmap){
+        mimgHinh.setValue(imageBitmap);
+    }
 
 }

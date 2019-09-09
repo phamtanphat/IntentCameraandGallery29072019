@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.Observer;
 
 import android.Manifest;
 import android.app.Activity;
@@ -21,14 +22,23 @@ public class MainActivity extends AppCompatActivity {
     Button btnCamera , btnGallery;
     ImageView img;
     int Request_Code_Camera = 1;
+    Mainmodel mainmodel = new Mainmodel();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         btnCamera = findViewById(R.id.buttonCamera);
         btnGallery = findViewById(R.id.buttonGallery);
         img = findViewById(R.id.imageview);
+
+        mainmodel.mimgHinh.observe(this, new Observer<Bitmap>() {
+            @Override
+            public void onChanged(Bitmap bitmap) {
+                if (bitmap != null){
+                    img.setImageBitmap(bitmap);
+                }
+            }
+        });
 
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == Request_Code_Camera && resultCode == RESULT_OK && data!= null){
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            img.setImageBitmap(bitmap);
+            mainmodel.setImageBitmap(bitmap);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
