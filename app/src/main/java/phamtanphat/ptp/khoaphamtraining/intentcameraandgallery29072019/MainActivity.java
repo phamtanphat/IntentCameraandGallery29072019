@@ -4,9 +4,11 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,14 +20,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.Observer;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.net.URL;
+
 //ctrl + alt + o : remove autoimport
 public class MainActivity extends AppCompatActivity {
 
-    Button btnCamera , btnGallery;
+    Button btnCamera, btnGallery;
     ImageView img;
     int Request_Code_Camera = 1;
     int Request_Code_Gallery = 2;
     Mainmodel mainmodel = new Mainmodel();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         mainmodel.mimgHinh.observe(this, new Observer<Bitmap>() {
             @Override
             public void onChanged(Bitmap bitmap) {
-                if (bitmap != null){
+                if (bitmap != null) {
                     img.setImageBitmap(bitmap);
                 }
             }
@@ -67,22 +74,47 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == Request_Code_Camera){
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == Request_Code_Camera) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent,Request_Code_Camera);
+                startActivityForResult(intent, Request_Code_Camera);
             }
         }
-
+        if (requestCode == Request_Code_Gallery) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, Request_Code_Gallery);
+            }
+        }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == Request_Code_Camera && resultCode == RESULT_OK && data!= null){
+        if (requestCode == Request_Code_Camera && resultCode == RESULT_OK && data != null) {
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             mainmodel.setImageBitmap(bitmap);
         }
+        if (requestCode == Request_Code_Gallery && resultCode == RESULT_OK && data != null) {
+            Uri uri = data.getData();
+
+            try {
+                cong2so(null,2);
+            }catch (Exception e){
+                Log.d("BBB",e.getMessage());
+            }
+
+        }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+    private int cong2so(final Integer a , final Integer b)throws NumberFormatException{
+        if (a == null) {
+            throw new NumberFormatException("Loi null");
+        }else{
+            int ketqua = a + b;
+            return ketqua;
+        }
     }
 }
