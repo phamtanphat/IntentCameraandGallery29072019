@@ -99,19 +99,17 @@ public class MainActivity extends AppCompatActivity {
         }
         if (requestCode == Request_Code_Gallery && resultCode == RESULT_OK && data != null) {
             Uri uri = data.getData();
-
             try {
-                cong2so(null,2);
-            }catch (Exception e){
-                Log.d("BBB",e.getMessage());
+                InputStream inputStream = getContentResolver().openInputStream(uri);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
-
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-    private int cong2so(final Integer a , final Integer b)throws NumberFormatException{
+    private int cong2so(final Integer a , final Integer b)throws NullPointerException{
         if (a == null) {
-            throw new NumberFormatException("Loi null");
+            throw new NullPointerException("Loi null");
         }else{
             int ketqua = a + b;
             return ketqua;
