@@ -1,5 +1,6 @@
 package phamtanphat.ptp.khoaphamtraining.intentcameraandgallery29072019;
 
+import android.database.Observable;
 import android.graphics.Bitmap;
 
 import androidx.lifecycle.LifecycleObserver;
@@ -15,5 +16,6 @@ public class Mainmodel extends ViewModel implements LifecycleObserver {
     public void setImageBitmap(Bitmap imageBitmap){
         mimgHinh.setValue(imageBitmap);
     }
+
 
 }
