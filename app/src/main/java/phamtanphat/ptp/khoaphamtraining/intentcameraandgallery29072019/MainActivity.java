@@ -1,32 +1,36 @@
 package phamtanphat.ptp.khoaphamtraining.intentcameraandgallery29072019;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.lifecycle.Observer;
-
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.Observer;
+
+//ctrl + alt + o : remove autoimport
 public class MainActivity extends AppCompatActivity {
 
     Button btnCamera , btnGallery;
     ImageView img;
     int Request_Code_Camera = 1;
+    int Request_Code_Gallery = 2;
     Mainmodel mainmodel = new Mainmodel();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         btnCamera = findViewById(R.id.buttonCamera);
         btnGallery = findViewById(R.id.buttonGallery);
         img = findViewById(R.id.imageview);
@@ -47,6 +51,16 @@ public class MainActivity extends AppCompatActivity {
                         MainActivity.this,
                         new String[]{Manifest.permission.CAMERA},
                         Request_Code_Camera);
+            }
+        });
+        btnGallery.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View view) {
+                ActivityCompat.requestPermissions(
+                        MainActivity.this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        Request_Code_Gallery);
             }
         });
     }
